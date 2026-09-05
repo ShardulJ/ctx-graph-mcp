@@ -16,6 +16,10 @@ export interface GraphNode {
 const SOURCE_EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx"]);
 const SKIPPED_DIRECTORIES = new Set(["node_modules", "dist", ".git"]);
 
+function compositeKey(filePath: string, name: string): string {
+  return `${filePath}:${name}`;
+}
+
 export function buildGraph(rootDir: string): Map<string, GraphNode> {
   const extracted: Array<{ filePath: string; symbol: ExtractedSymbol }> = [];
   for (const filePath of findSourceFiles(rootDir)) {
@@ -30,7 +34,7 @@ export function buildGraph(rootDir: string): Map<string, GraphNode> {
   }
 
   const keyFor = (filePath: string, name: string): string =>
-    (nameCounts.get(name) ?? 0) > 1 ? `${filePath}:${name}` : name;
+    (nameCounts.get(name) ?? 0) > 1 ? compositeKey(filePath, name) : name;
 
   const graph = new Map<string, GraphNode>();
   const keysByName = new Map<string, string[]>();
@@ -92,7 +96,7 @@ function resolveCallee(
   // The name collides across files. Without import tracking there is no way
   // to know which one was meant, so only resolve the case where the caller's
   // own file defines a symbol with that name; otherwise drop the call.
-  return candidates.find((key) => key === `${callerFilePath}:${calledName}`);
+  return candidates.find((key) => key === compositeKey(callerFilePath, calledName));
 }
 
 export function findSourceFiles(rootDir: string): string[] {
