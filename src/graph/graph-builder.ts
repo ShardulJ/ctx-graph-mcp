@@ -95,7 +95,7 @@ function resolveCallee(
   return candidates.find((key) => key === `${callerFilePath}:${calledName}`);
 }
 
-function findSourceFiles(rootDir: string): string[] {
+export function findSourceFiles(rootDir: string): string[] {
   const results: string[] = [];
 
   const walk = (dir: string): void => {
