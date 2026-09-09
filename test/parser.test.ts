@@ -1,11 +1,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { extractSymbols } from "../src/graph/parser.js";
+import { fixturesDir } from "./helpers.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const fixturePath = path.join(__dirname, "fixtures", "sample.ts");
+const fixturePath = fixturesDir(import.meta.url, "sample.ts");
 
 function byName(symbols: ReturnType<typeof extractSymbols>, name: string) {
   const symbol = symbols.find((s) => s.name === name);

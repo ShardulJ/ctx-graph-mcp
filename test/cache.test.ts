@@ -3,11 +3,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { loadOrBuildGraph } from "../src/graph/cache.js";
+import { fixturesDir } from "./helpers.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const fixtureSource = path.join(__dirname, "fixtures", "multi");
+const fixtureSource = fixturesDir(import.meta.url, "multi");
 
 function makeSandbox(): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "ctx-graph-cache-test-"));

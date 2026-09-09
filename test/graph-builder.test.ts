@@ -1,11 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { buildGraph, type GraphNode } from "../src/graph/graph-builder.js";
+import { fixturesDir } from "./helpers.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const fixtureDir = path.join(__dirname, "fixtures", "multi");
+const fixtureDir = fixturesDir(import.meta.url, "multi");
 
 const ordersPath = path.join(fixtureDir, "orders.ts");
 const validatorsPath = path.join(fixtureDir, "validators.ts");
